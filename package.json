@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/RedAndBlu/web-component-router/issues"
   },
-  "homepage": "https://github.com/RedAndBlu/web-component-router#readme"
+  "homepage": "https://github.com/RedAndBlu/web-component-router#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  }
 }
