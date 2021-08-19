@@ -28,14 +28,9 @@ export class Link extends HTMLAnchorElement {
     };
   }
 
-  render() {
-    this.innerHTML = "<slot></slot>";
-  }
-
   connectedCallback() {
     if (this.isConnected) {
       this.switcher = this.getSwitcher();
-      this.render();
       this.handleClick();
     }
   }
