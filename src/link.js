@@ -23,7 +23,7 @@ export class Link extends HTMLAnchorElement {
       return this.href;
     }
 
-    return location.origin + this.dataset.path;
+    return location.origin + this.href;
   }
 
   handleClick() {
