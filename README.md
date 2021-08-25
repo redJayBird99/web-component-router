@@ -22,13 +22,13 @@ this tag constrains all the tags you want to route
  * the class of e-router tag is Router if you prefer to use it
 
  ### e-link
- this tag navigates to the path associated with the **data-path** attribute
+ this tag navigates to the given **href** attribute
  ```html
 <e-router>
   <div slot="/home">
     ...
-    <a is='e-link' data-path='path'>go to path</a>
-    <a is='e-link' data-path='other path'>go to other path</a>
+    <a is='e-link' href='/path'>go to path</a>
+    <a is='e-link' href='htpps://exemple.com/next?=baz'>go to other path</a>
   </div>
  </e-router>
  ```
