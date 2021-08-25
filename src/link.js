@@ -17,6 +17,12 @@ export class Link extends HTMLAnchorElement {
   }
 
   getTargetHref() {
+    const isAbsolute = new RegExp("^(?:[a-z]+:)?//", "i");
+
+    if (isAbsolute.test(this.href)) {
+      return this.href;
+    }
+
     return location.origin + this.dataset.path;
   }
 
@@ -33,13 +39,5 @@ export class Link extends HTMLAnchorElement {
       this.switcher = this.getSwitcher();
       this.handleClick();
     }
-  }
-
-  static get observedAttributes() {
-    return ["data-path"];
-  }
-
-  attributeChangedCallback() {
-    this.href = this.getTargetHref();
   }
 }
