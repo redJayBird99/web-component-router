@@ -16,19 +16,9 @@ export class Link extends HTMLAnchorElement {
     return this.getRouter(this).shadowRoot.firstElementChild;
   }
 
-  getTargetHref() {
-    const isAbsolute = new RegExp("^(?:[a-z]+:)?//", "i");
-
-    if (isAbsolute.test(this.href)) {
-      return this.href;
-    }
-
-    return location.origin + this.href;
-  }
-
   handleClick() {
     this.onclick = () => {
-      window.history.pushState({}, "", this.getTargetHref());
+      window.history.pushState({}, "", this.href);
       this.switcher.dispatchEvent(new CustomEvent("switch-path"));
       return false;
     };
