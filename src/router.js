@@ -1,20 +1,17 @@
 export class Router extends HTMLElement {
-  connectedCallback() {
-    if (this.isConnected) {
-      this.attachShadow({mode: "open"}).innerHTML = "<e-switcher></e-switcher>";
-    }
+  constructor() {
+    super();
+    this.attachShadow({mode: "open"})
+      .innerHTML = "<e-switcher></e-switcher>";
   }
 }
 
 
 export class Switcher extends HTMLElement {
-  update = () => {
-    const newFullPath = this.getFullPath();
-
-    if (newFullPath !== this.fullPath) {
-      this.fullPath = newFullPath;
-      this.render();
-    }
+  constructor() {
+    super();
+    this.render = this.render.bind(this);
+    this.render();
   }
 
   getFullPath() {
@@ -22,23 +19,26 @@ export class Switcher extends HTMLElement {
   }
 
   render() {
-    this.innerHTML = `<slot name='${this.fullPath}'></slot>`;
+    this.innerHTML = `<slot name='${this.getFullPath()}'></slot>`;
   }
 
   listenToPathChange() {
-    window.onpopstate = this.update;
-    this.addEventListener('switch-path', this.update);
+    window.onpopstate = this.render;
+    this.addEventListener("switch-path", this.render);
+  }
+
+  removeListenToPathChange() {
+    window.onpopstate = null;
+    this.removeEventListener("switch-path", this.render);
   }
 
   connectedCallback() {
     if (this.isConnected) {
-      this.fullPath = this.getFullPath();
-      this.render();
       this.listenToPathChange();
     }
   }
 
   disconnectedCallback() {
-    window.onpopstate = null;
+    this.removeListenToPathChange();
   }
 }

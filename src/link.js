@@ -1,4 +1,9 @@
 export class Link extends HTMLAnchorElement {
+  constructor() {
+    super();
+    this.switcher = this.getSwitcher();
+  }
+
   getRouter(from) {
     const router = from.closest("e-router");
 
@@ -26,8 +31,11 @@ export class Link extends HTMLAnchorElement {
 
   connectedCallback() {
     if (this.isConnected) {
-      this.switcher = this.getSwitcher();
       this.handleClick();
     }
+  }
+
+  disconnectedCallback() {
+    this.onclick = null;
   }
 }
