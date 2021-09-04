@@ -10,35 +10,46 @@ export class Router extends HTMLElement {
 export class Switcher extends HTMLElement {
   constructor() {
     super();
-    this.render = this.render.bind(this);
-    this.render();
+    this.renderPage = this.renderPage.bind(this);
+    this.renderWhenDefault = this.renderWhenDefault.bind(this);
+    this.innerHTML = "<slot></slot>";
+    this.pageSlot = this.firstElementChild;
   }
 
   getFullPath() {
     return location.pathname + location.search + location.hash;
   }
 
-  render() {
-    this.innerHTML = `<slot name='${this.getFullPath()}'></slot>`;
+  renderPage() {
+    this.pageSlot.setAttribute("name", this.getFullPath());
+  }
+
+  renderWhenDefault() {
+    if (this.pageSlot.assignedElements().length === 0) {
+      this.pageSlot.setAttribute("name", "~default");
+    }
   }
 
   listenToPathChange() {
-    window.onpopstate = this.render;
-    this.addEventListener("switch-path", this.render);
+    window.onpopstate = this.renderPage;
+    this.addEventListener("switch-path", this.renderPage);
   }
 
   removeListenToPathChange() {
     window.onpopstate = null;
-    this.removeEventListener("switch-path", this.render);
+    this.removeEventListener("switch-path", this.renderPage);
   }
 
   connectedCallback() {
     if (this.isConnected) {
       this.listenToPathChange();
+      this.pageSlot.addEventListener("slotchange", this.renderWhenDefault);
+      this.renderPage();
     }
   }
 
   disconnectedCallback() {
     this.removeListenToPathChange();
+    this.pageSlot.removeEventListener("slotchange", this.renderWhenDefault);
   }
 }
