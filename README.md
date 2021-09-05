@@ -34,3 +34,13 @@ this tag constrains all the tags you want to route
  ```
 * e-link tag should be always located inside the e-router tag, it doesn't matter how much deep or if it's nested in multiple shadow doom
 * the class of e-link tag is Link if you prefer to use it
+
+### optional default tag
+when there isn't any matching tag for the current href, the one with attribute **slot='~default'** get rendered
+```html
+<e-router>
+  <div slot="/home">...</div>
+  <article slot="/next">...</article>
+  <not-found-page slot='~default'>it gets rendered when the current href isn't any of the above</not-found-page>
+</e-router>
+ ```
